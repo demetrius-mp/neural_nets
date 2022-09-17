@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "rust-lang.rust-analyzer",
+        "bierner.markdown-preview-github-styles",
+        "DavidAnson.vscode-markdownlint"
+    ]
+}
