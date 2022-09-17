@@ -30,25 +30,46 @@ mod tests {
 
     #[test]
     fn dot_product_and_sum_equal_lengths() {
-        let result = dot_product_and_sum(&vec![1.0, 2.0], &vec![1.0, 2.0]);
+        let a = vec![1.0, 2.0];
+        let b = vec![1.0, 2.0];
+        let result = dot_product_and_sum(&a, &b);
+
         assert_eq!(result, 5.0);
     }
 
     #[test]
     fn dot_product_and_sum_a_bigger_than_b() {
-        let result = dot_product_and_sum(&vec![1.0, 2.0, 3.0], &vec![1.0, 2.0]);
+        let a = vec![1.0, 2.0, 3.0];
+        let b = vec![1.0, 2.0];
+        let result = dot_product_and_sum(&a, &b);
+
         assert_eq!(result, 5.0);
     }
 
     #[test]
-    fn dot_product_and_sum_a_is_empty() {
-        let result = dot_product_and_sum(&vec![], &vec![1.0, 2.0, 3.0]);
+    fn dot_product_and_sum_b_bigger_than_a() {
+        let a = vec![1.0, 2.0];
+        let b = vec![1.0, 2.0, 3.0];
+        let result = dot_product_and_sum(&a, &b);
+
+        assert_eq!(result, 5.0);
+    }
+
+    #[test]
+    fn dot_product_and_sum_a_is_empty_b_is_filled() {
+        let a: Vec<f64> = vec![];
+        let b = vec![1.0, 2.0];
+        let result = dot_product_and_sum(&a, &b);
+
         assert_eq!(result, 0.0);
     }
 
     #[test]
-    fn dot_product_and_sum_b_is_empty() {
-        let result = dot_product_and_sum(&vec![1.0, 2.0, 3.0], &vec![]);
+    fn dot_product_and_sum_b_is_empty_a_is_filled() {
+        let a = vec![1.0, 2.0];
+        let b: Vec<f64> = vec![];
+        let result = dot_product_and_sum(&a, &b);
+
         assert_eq!(result, 0.0);
     }
 }
