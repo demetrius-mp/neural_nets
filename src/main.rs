@@ -1,5 +1,5 @@
 use nalgebra::DMatrix;
-use numerical::convolve;
+use numerical::{convolve, gradient, GradientMode};
 
 fn main() {
     #[rustfmt::skip]
@@ -65,4 +65,19 @@ fn main() {
     );
 
     println!("{result}");
+
+    let result = gradient(
+        &vec![3.5, 3.5],
+        &vec![|values| -2.0 * values[0], |values| -2.0 * values[1]],
+        0.1,
+        1200,
+        GradientMode::Asc,
+    );
+
+    let expected = vec![0.0, 0.0];
+    let difference_x = (expected[0] - result[0]).abs();
+    let difference_y = (expected[1] - result[1]).abs();
+
+    println!("{difference_x:.5}");
+    println!("{difference_y:.5}");
 }
