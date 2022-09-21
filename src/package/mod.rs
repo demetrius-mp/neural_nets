@@ -1,5 +1,5 @@
-mod convolve;
-pub use convolve::*;
+mod convolution;
+pub use convolution::*;
 mod gradient;
 pub use gradient::*;
 mod linear_regression;
