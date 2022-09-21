@@ -1,15 +1,13 @@
-use nalgebra::{Dynamic, Matrix, VecStorage};
-
-type CustomMatrix = Matrix<f64, Dynamic, Dynamic, VecStorage<f64, Dynamic, Dynamic>>;
+use crate::Matrix;
 
 pub fn mini_batch_linear_regression(
-    x: &CustomMatrix,
-    y: &CustomMatrix,
-    initial_theta: &CustomMatrix,
+    x: &Matrix,
+    y: &Matrix,
+    initial_theta: &Matrix,
     alpha: f64,
     epochs: u128,
     mini_batch_size: usize,
-) -> CustomMatrix {
+) -> Matrix {
     let mut theta = initial_theta.clone();
 
     for _ in 0..epochs {
@@ -30,12 +28,12 @@ pub fn mini_batch_linear_regression(
 }
 
 pub fn batch_linear_regression(
-    x: &CustomMatrix,
-    y: &CustomMatrix,
-    initial_theta: &CustomMatrix,
+    x: &Matrix,
+    y: &Matrix,
+    initial_theta: &Matrix,
     alpha: f64,
     epochs: u128,
-) -> CustomMatrix {
+) -> Matrix {
     let mut theta = initial_theta.clone();
 
     let number_of_samples = x.nrows();
@@ -53,12 +51,12 @@ pub fn batch_linear_regression(
 }
 
 pub fn stochastic_linear_regression(
-    x: &CustomMatrix,
-    y: &CustomMatrix,
-    initial_theta: &CustomMatrix,
+    x: &Matrix,
+    y: &Matrix,
+    initial_theta: &Matrix,
     alpha: f64,
     epochs: u128,
-) -> CustomMatrix {
+) -> Matrix {
     let mut theta = initial_theta.clone();
 
     for _ in 0..epochs {
@@ -73,7 +71,7 @@ pub fn stochastic_linear_regression(
     theta
 }
 
-pub fn get_error(x: &CustomMatrix, y: &CustomMatrix, theta: &CustomMatrix) -> f64 {
+pub fn get_error(x: &Matrix, y: &Matrix, theta: &Matrix) -> f64 {
     x.row_iter().enumerate().fold(0.0, |acc, (i, row)| {
         acc + (row.component_mul(&theta).sum() - y[i]).powi(2)
     })
