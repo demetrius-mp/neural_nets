@@ -6,4 +6,4 @@ I started this project to learn more of the rust's ecosystem, such as testing, a
 
 ## To do
 
-- [ ] Implement all the functions needed to run convolution on a given imagem, with a given kernel.
+- [ ] Tests and docs for [linear regression](src/package/linear_regression.rs) functions.
