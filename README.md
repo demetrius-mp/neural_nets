@@ -6,6 +6,7 @@ I started this project to learn more of the rust's ecosystem, such as testing, a
 
 ## To do
 
+- [ ] Add batch and mini batch logistic regression.
 - [ ] Tests and docs for [linear regression](src/package/linear_regression.rs) functions.
 
 ## Considering
