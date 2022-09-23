@@ -3,13 +3,13 @@ use crate::{create_matrix, Matrix};
 /// Runs a convolution on the given channels, using the given kernel.
 /// # Arguments
 ///
-/// * `kernel` - A vector of matrices, where each matrix will be convolved with a channel of the image.
+/// * `kernel` - A vector of matrices, where each matrix will be convoluted with a channel of the image.
 /// * `channels` - A vector of matrices, where each matrix represents a channel of the image.
 ///
 /// # Examples
 ///
 /// ```
-/// use numerical::{convolve, create_matrix};
+/// use numerical::{convolution, create_matrix};
 ///
 /// #[rustfmt::skip]
 /// let kernel = create_matrix(3, 3, vec![
@@ -26,7 +26,7 @@ use crate::{create_matrix, Matrix};
 ///     1.0, 0.0, 0.0, 1.0,
 /// ]);
 ///
-/// let result = convolve(
+/// let result = convolution(
 ///     &vec![kernel],
 ///     &vec![channel],
 /// );
@@ -39,7 +39,7 @@ use crate::{create_matrix, Matrix};
 ///
 /// assert_eq!(result, expected);
 /// ```
-pub fn convolve(kernel: &Vec<Matrix>, channels: &Vec<Matrix>) -> Matrix {
+pub fn convolution(kernel: &Vec<Matrix>, channels: &Vec<Matrix>) -> Matrix {
     let nrows = channels[0].nrows() - kernel[0].nrows() + 1;
     let ncols = channels[0].ncols() - kernel[0].ncols() + 1;
 
@@ -66,7 +66,7 @@ mod tests {
     use crate::create_matrix;
 
     #[test]
-    fn convolve_single_channel() {
+    fn convolution_single_channel() {
         #[rustfmt::skip]
         let kernel = create_matrix(3, 3, vec![
             0.0, 1.0, 2.0,
@@ -86,7 +86,7 @@ mod tests {
             ],
         );
 
-        let result = convolve(&vec![kernel], &vec![channel]);
+        let result = convolution(&vec![kernel], &vec![channel]);
 
         #[rustfmt::skip]
         let expected = create_matrix(2, 2, vec![
@@ -98,7 +98,7 @@ mod tests {
     }
 
     #[test]
-    fn convolve_multi_channel() {
+    fn convolution_multi_channel() {
         #[rustfmt::skip]
         let kernel = create_matrix(3, 3, vec![
             0.0, 1.0, 2.0,
@@ -156,7 +156,7 @@ mod tests {
             ],
         );
 
-        let result = convolve(
+        let result = convolution(
             &vec![kernel, kernel2, kernel3],
             &vec![channel, channel2, channel3],
         );
