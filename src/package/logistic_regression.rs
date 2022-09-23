@@ -93,3 +93,119 @@ pub fn predict(theta: &Matrix, x: &Matrix) -> bool {
 
     res > 0.5
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::create_matrix;
+
+    struct Prediction {
+        input: Matrix,
+        output: bool
+    }
+
+    struct LogicalAndProblemData {
+        x: Matrix,
+        y: Matrix,
+        initial_theta: Matrix,
+        predictions: Vec<Prediction>
+    }
+
+    impl LogicalAndProblemData {
+        fn new() -> Self {
+            #[rustfmt::skip]
+            let x = create_matrix(
+                4, 
+                3, 
+                vec![
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 1.0,
+                1.0, 1.0, 0.0,
+                1.0, 1.0, 1.0,
+            ]);
+
+            #[rustfmt::skip]
+            let y = create_matrix(
+                4, 
+                1, 
+                vec![
+                    0.0, 
+                    0.0, 
+                    0.0,
+                    1.0,
+                ]
+            );
+
+            #[rustfmt::skip]
+            let initial_theta = create_matrix(
+                1, 
+                3, 
+                vec![
+                    1.0, 1.0, 1.0
+                ]
+            );
+
+            let p1 = create_matrix(1, 3, vec![1.0, 0.0, 0.0]);
+            let p2 = create_matrix(1, 3, vec![1.0, 0.0, 1.0]);
+            let p3 = create_matrix(1, 3, vec![1.0, 1.0, 0.0]);
+            let p4 = create_matrix(1, 3, vec![1.0, 1.0, 1.0]);
+
+            Self { 
+                x, 
+                y, 
+                initial_theta, 
+                predictions: vec![
+                    Prediction {
+                        input: p1,
+                        output: false,
+                    },
+                    Prediction {
+                        input: p2,
+                        output: false,
+                    },
+                    Prediction {
+                        input: p3,
+                        output: false,
+                    },
+                    Prediction {
+                        input: p4,
+                        output: true,
+                    },
+                ] 
+            }
+        }
+    }
+
+    #[test]
+    fn mini_batch_logistic_regression_on_logical_and_problem() {
+        let data = LogicalAndProblemData::new();
+        let theta = mini_batch_logistic_regression(&data.x, &data.y, &data.initial_theta, 0.5, 1000, 1);
+
+        for prediction in data.predictions {
+            let result = predict(&theta, &prediction.input);
+            assert_eq!(result, prediction.output);
+        }
+    }
+
+    #[test]
+    fn batch_logistic_regression_on_logical_and_problem() {
+        let data = LogicalAndProblemData::new();
+        let theta = batch_logistic_regression(&data.x, &data.y, &data.initial_theta, 0.5, 1000);
+
+        for prediction in data.predictions {
+            let result = predict(&theta, &prediction.input);
+            assert_eq!(result, prediction.output);
+        }
+    }
+
+    #[test]
+    fn stochastic_logistic_regression_on_logical_and_problem() {
+        let data = LogicalAndProblemData::new();
+        let theta = stochastic_logistic_regression(&data.x, &data.y, &data.initial_theta, 0.5, 1000);
+
+        for prediction in data.predictions {
+            let result = predict(&theta, &prediction.input);
+            assert_eq!(result, prediction.output);
+        }
+    }
+}
