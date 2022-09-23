@@ -1,9 +1,10 @@
-use numerical::{
-    create_matrix,
-    batch_logistic_regression,
+use numerical::create_matrix;
+
+use numerical::logistic_regression::{
+    batch_logistic_regression, 
+    mini_batch_logistic_regression, 
     stochastic_logistic_regression,
-    mini_batch_logistic_regression,
-    predict
+    predict,
 };
 
 fn main() {
@@ -48,5 +49,8 @@ fn main() {
     let res = mini_batch_logistic_regression(&x, &y, &initial_theta, 0.5, 1000, 1);
     println!("{}", res);
 
-    println!("{}", predict(&res, &create_matrix(1, 3, vec![1.0, 1.0, 1.0])));
+    println!(
+        "{}",
+        predict(&res, &create_matrix(1, 3, vec![1.0, 1.0, 1.0]))
+    );
 }
