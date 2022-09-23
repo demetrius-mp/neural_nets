@@ -1,56 +1,54 @@
 use numerical::create_matrix;
 
-use numerical::logistic_regression::{
-    batch_logistic_regression, 
-    mini_batch_logistic_regression, 
-    stochastic_logistic_regression,
+use numerical::linear_regression::{
+    batch_linear_regression, 
+    mini_batch_linear_regression, 
+    stochastic_linear_regression,
     predict,
 };
 
 fn main() {
     #[rustfmt::skip]
     let x = create_matrix(
-        4, 
-        3, 
+        3,
+        2,
         vec![
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 1.0,
-        1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0,
+        1.0, 50.0,
+        1.0, 60.0,
+        1.0, 100.0,
     ]);
 
     #[rustfmt::skip]
     let y = create_matrix(
-        4, 
+        3, 
         1, 
         vec![
-            0.0, 
-            0.0, 
-            0.0,
-            1.0,
+            120.0, 
+            150.0, 
+            250.0,
         ]
     );
 
     #[rustfmt::skip]
     let initial_theta = create_matrix(
-        1, 
-        3, 
+        1,
+        2,
         vec![
-            1.0, 1.0, 1.0
+            1.0, 1.0
         ]
     );
 
-    let res = batch_logistic_regression(&x, &y, &initial_theta, 0.5, 1000);
+    let res = batch_linear_regression(&x, &y, &initial_theta, 0.0001, 1000);
     println!("{}", res);
 
-    let res = stochastic_logistic_regression(&x, &y, &initial_theta, 0.5, 1000);
+    let res = stochastic_linear_regression(&x, &y, &initial_theta, 0.0001, 1000);
     println!("{}", res);
 
-    let res = mini_batch_logistic_regression(&x, &y, &initial_theta, 0.5, 1000, 1);
+    let res = mini_batch_linear_regression(&x, &y, &initial_theta, 0.0001, 1000, 1);
     println!("{}", res);
 
     println!(
         "{}",
-        predict(&res, &create_matrix(1, 3, vec![1.0, 1.0, 1.0]))
+        predict(&res, &create_matrix(1, 2, vec![1.0, 60.0]))
     );
 }

@@ -7,7 +7,7 @@ I started this project to learn more of the rust's ecosystem, such as testing, a
 ## Tasks
 
 - [ ] Add docs for [logistic regression](src/package/logistic_regression.rs) functions.
-- [ ] Predictor function, tests, docs for [linear regression](src/package/linear_regression.rs) functions.
+- [ ] Tests, docs for [linear regression](src/package/linear_regression.rs) functions.
 
 ## Considering
 

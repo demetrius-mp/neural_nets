@@ -71,8 +71,6 @@ pub fn stochastic_linear_regression(
     theta
 }
 
-pub fn get_error(x: &Matrix, y: &Matrix, theta: &Matrix) -> f64 {
-    x.row_iter().enumerate().fold(0.0, |acc, (i, row)| {
-        acc + (row.component_mul(&theta).sum() - y[i]).powi(2)
-    })
+pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
+    theta.component_mul(x).sum()
 }
