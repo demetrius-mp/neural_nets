@@ -46,11 +46,17 @@ pub fn stochastic_logistic_regression(
         for i in 0..x.nrows() {
             for j in 0..x.ncols() {
                 let gx = sigmoid(theta.component_mul(&x.row(i)).sum());
-                let delta = (gx - y[i]) * (gx * (1.0 - gx)) * x[(i, j)];
+                let delta = (gx - y[i]) * gx * (1.0 - gx) * x[(i, j)];
                 theta[j] = theta[j] - (alpha * delta);
             }
         }
     }
 
     theta
+}
+
+pub fn predict(theta: &Matrix, x: &Matrix) -> bool {
+    let res = sigmoid(theta.component_mul(x).sum());
+
+    res > 0.5
 }

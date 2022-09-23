@@ -1,7 +1,8 @@
 use numerical::{
     create_matrix,
     batch_logistic_regression,
-    stochastic_logistic_regression
+    stochastic_logistic_regression,
+    predict
 };
 
 fn main() {
@@ -37,9 +38,11 @@ fn main() {
         ]
     );
 
-    let res = batch_logistic_regression(&x, &y, &initial_theta, 0.001, 1);
+    let res = batch_logistic_regression(&x, &y, &initial_theta, 0.5, 1000);
     println!("{}", res);
 
-    let res = stochastic_logistic_regression(&x, &y, &initial_theta, 0.001, 10000);
+    let res = stochastic_logistic_regression(&x, &y, &initial_theta, 0.5, 1000);
     println!("{}", res);
+
+    println!("{}", predict(&res, &create_matrix(1, 3, vec![1.0, 1.0, 1.0])));
 }
