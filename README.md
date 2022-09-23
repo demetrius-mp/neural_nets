@@ -4,10 +4,10 @@
 
 I started this project to learn more of the rust's ecosystem, such as testing, and documentation features.
 
-## To do
+## Tasks
 
-- [ ] Add batch and mini batch logistic regression.
-- [ ] Tests and docs for [linear regression](src/package/linear_regression.rs) functions.
+- [ ] Add docs for [logistic regression](src/package/logistic_regression.rs) functions.
+- [ ] Predictor function, tests, docs for [linear regression](src/package/linear_regression.rs) functions.
 
 ## Considering
 
