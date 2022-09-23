@@ -1,8 +1,8 @@
-# numerical
+# neural_nets
 
-> Numerical computing, in Rust!
+> My study on neural networks during my Computer Science MSc.
 
-I started this project to learn more of the rust's ecosystem, such as testing, and documentation features.
+I started this project to learn more of the rust's ecosystem, such as testing, and documentation features, and also to test my know-how on some neural networks topics.
 
 ## Tasks
 
@@ -11,5 +11,4 @@ I started this project to learn more of the rust's ecosystem, such as testing, a
 
 ## Considering
 
-- Rename [`create_matrix.rs`](src/package/create_matrix.rs) to `matrix.rs`.
-- Rename the project to `neural_nets` (since most of this code reproduces my study on neural networks during my Computer Science MSc).
+> Nothing here yet!

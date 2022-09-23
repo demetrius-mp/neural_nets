@@ -18,7 +18,7 @@ pub enum GradientMode {
 /// # Examples
 ///
 /// ```
-/// use numerical::{gradient, GradientMode};
+/// use neural_nets::{gradient, GradientMode};
 ///
 /// // runs the gradient descent method on the function
 /// // f(x, y) = x**2 + y**2

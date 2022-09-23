@@ -15,7 +15,7 @@ pub type Matrix = NMatrix<f64, Dynamic, Dynamic, VecStorage<f64, Dynamic, Dynami
 /// # Examples
 ///
 /// ```
-/// use numerical::create_matrix;
+/// use neural_nets::create_matrix;
 ///
 /// let nrows = 3;
 /// let ncols = 3;

@@ -1,6 +1,6 @@
-use numerical::create_matrix;
+use neural_nets::create_matrix;
 
-use numerical::linear_regression::{
+use neural_nets::linear_regression::{
     batch_linear_regression, 
     mini_batch_linear_regression, 
     stochastic_linear_regression,

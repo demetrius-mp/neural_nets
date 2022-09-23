@@ -9,7 +9,7 @@ use crate::{create_matrix, Matrix};
 /// # Examples
 ///
 /// ```
-/// use numerical::{convolution, create_matrix};
+/// use neural_nets::{convolution, create_matrix};
 ///
 /// #[rustfmt::skip]
 /// let kernel = create_matrix(3, 3, vec![
