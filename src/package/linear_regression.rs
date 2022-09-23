@@ -74,3 +74,112 @@ pub fn stochastic_linear_regression(
 pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
     theta.component_mul(x).sum()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::create_matrix;
+
+    struct Prediction {
+        input: Matrix,
+        output: f64
+    }
+
+    struct LogicalAndProblemData {
+        x: Matrix,
+        y: Matrix,
+        initial_theta: Matrix,
+        predictions: Vec<Prediction>
+    }
+
+    impl LogicalAndProblemData {
+        fn new() -> Self {
+            #[rustfmt::skip]
+            let x = create_matrix(
+                3,
+                2,
+                vec![
+                1.0, 50.0,
+                1.0, 60.0,
+                1.0, 100.0,
+            ]);
+
+            #[rustfmt::skip]
+            let y = create_matrix(
+                3, 
+                1, 
+                vec![
+                    120.0, 
+                    150.0, 
+                    250.0,
+                ]
+            );
+
+            #[rustfmt::skip]
+            let initial_theta = create_matrix(
+                1,
+                2,
+                vec![
+                    1.0, 1.0
+                ]
+            );
+
+            let p1 = create_matrix(1, 2, vec![1.0, 50.0]);
+            let p2 = create_matrix(1, 2, vec![1.0, 60.0]);
+            let p3 = create_matrix(1, 2, vec![1.0, 100.0]);
+
+            Self { 
+                x, 
+                y, 
+                initial_theta, 
+                predictions: vec![
+                    Prediction {
+                        input: p1,
+                        output: 120.0,
+                    },
+                    Prediction {
+                        input: p2,
+                        output: 150.0,
+                    },
+                    Prediction {
+                        input: p3,
+                        output: 250.0,
+                    },
+                ] 
+            }
+        }
+    }
+
+    #[test]
+    fn mini_batch_linear_regression_3_samples() {
+        let data = LogicalAndProblemData::new();
+        let theta = mini_batch_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000, 1);
+        let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
+            acc + (p.output - predict(&theta, &p.input)).powi(2)
+        });
+
+        assert!(mean_squared_error < 30.0);
+    }
+
+    #[test]
+    fn batch_linear_regression_3_samples() {
+        let data = LogicalAndProblemData::new();
+        let theta = batch_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000);
+        let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
+            acc + (p.output - predict(&theta, &p.input)).powi(2)
+        });
+
+        assert!(mean_squared_error < 30.0);
+    }
+
+    #[test]
+    fn stochastic_batch_linear_regression_3_samples() {
+        let data = LogicalAndProblemData::new();
+        let theta = stochastic_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000);
+        let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
+            acc + (p.output - predict(&theta, &p.input)).powi(2)
+        });
+
+        assert!(mean_squared_error < 30.0);
+    }
+}
