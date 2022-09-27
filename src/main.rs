@@ -1,9 +1,7 @@
 use neural_nets::create_matrix;
 
 use neural_nets::linear_regression::{
-    batch_linear_regression, 
-    mini_batch_linear_regression, 
-    stochastic_linear_regression,
+    mini_batch_linear_regression,
     predict,
 };
 
@@ -37,12 +35,6 @@ fn main() {
             1.0, 1.0
         ]
     );
-
-    let res = batch_linear_regression(&x, &y, &initial_theta, 0.0001, 1000);
-    println!("{}", res);
-
-    let res = stochastic_linear_regression(&x, &y, &initial_theta, 0.0001, 1000);
-    println!("{}", res);
 
     let res = mini_batch_linear_regression(&x, &y, &initial_theta, 0.0001, 1000, 1);
     println!("{}", res);

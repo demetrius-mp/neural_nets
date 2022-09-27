@@ -27,50 +27,6 @@ pub fn mini_batch_linear_regression(
     theta
 }
 
-pub fn batch_linear_regression(
-    x: &Matrix,
-    y: &Matrix,
-    initial_theta: &Matrix,
-    alpha: f64,
-    epochs: u128,
-) -> Matrix {
-    let mut theta = initial_theta.clone();
-
-    let number_of_samples = x.nrows();
-
-    let x_transposed = x.transpose();
-    let y_transposed = y.transpose();
-    let x_mean_values = x.scale(1.0 / number_of_samples as f64);
-
-    for _ in 0..epochs {
-        let delta = (&theta * &x_transposed - &y_transposed) * &x_mean_values;
-        theta = theta - alpha * delta;
-    }
-
-    theta
-}
-
-pub fn stochastic_linear_regression(
-    x: &Matrix,
-    y: &Matrix,
-    initial_theta: &Matrix,
-    alpha: f64,
-    epochs: u128,
-) -> Matrix {
-    let mut theta = initial_theta.clone();
-
-    for _ in 0..epochs {
-        for i in 0..x.nrows() {
-            for j in 0..x.ncols() {
-                let delta = (theta.component_mul(&x.row(i)).sum() - y[i]) * x[(i, j)];
-                theta[j] = theta[j] - (alpha * delta);
-            }
-        }
-    }
-
-    theta
-}
-
 pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
     theta.component_mul(x).sum()
 }
@@ -154,28 +110,6 @@ mod tests {
     fn mini_batch_linear_regression_3_samples() {
         let data = LogicalAndProblemData::new();
         let theta = mini_batch_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000, 1);
-        let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
-            acc + (p.output - predict(&theta, &p.input)).powi(2)
-        });
-
-        assert!(mean_squared_error < 30.0);
-    }
-
-    #[test]
-    fn batch_linear_regression_3_samples() {
-        let data = LogicalAndProblemData::new();
-        let theta = batch_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000);
-        let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
-            acc + (p.output - predict(&theta, &p.input)).powi(2)
-        });
-
-        assert!(mean_squared_error < 30.0);
-    }
-
-    #[test]
-    fn stochastic_batch_linear_regression_3_samples() {
-        let data = LogicalAndProblemData::new();
-        let theta = stochastic_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000);
         let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
             acc + (p.output - predict(&theta, &p.input)).powi(2)
         });
