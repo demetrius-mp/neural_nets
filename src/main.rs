@@ -1,6 +1,6 @@
 use neural_nets::create_matrix;
 
-use neural_nets::regression::LinearRegression;
+use neural_nets::regression::{LinearRegression, RegressionTrait};
 
 fn main() {
     #[rustfmt::skip]

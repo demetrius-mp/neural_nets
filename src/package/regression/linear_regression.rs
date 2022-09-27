@@ -1,5 +1,7 @@
 use crate::Matrix;
 
+use super::RegressionTrait;
+
 pub struct LinearRegression<'a> {
     x: &'a Matrix,
     y: &'a Matrix,
@@ -8,8 +10,8 @@ pub struct LinearRegression<'a> {
     epochs: u128,
 }
 
-impl<'a> LinearRegression<'a> {
-    pub fn new(
+impl<'a> RegressionTrait<'a> for LinearRegression<'a> {
+    fn new(
         x: &'a Matrix,
         y: &'a Matrix,
         initial_theta: &'a Matrix,
@@ -19,7 +21,7 @@ impl<'a> LinearRegression<'a> {
         Self { x, y, initial_theta, alpha, epochs }
     }
 
-    pub fn fit(&self, mini_batch_size: usize) -> Matrix {
+    fn fit(&self, mini_batch_size: usize) -> Matrix {
         let mut theta = self.initial_theta.clone();
 
         for _ in 0..self.epochs {
@@ -39,7 +41,7 @@ impl<'a> LinearRegression<'a> {
         theta
     }
 
-    pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
+    fn predict(theta: &Matrix, x: &Matrix) -> f64 {
         theta.component_mul(x).sum()
     }
 }

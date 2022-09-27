@@ -1,4 +1,5 @@
 use crate::Matrix;
+use super::RegressionTrait;
 
 fn sigmoid(x: f64) -> f64 {
     1.0 / (1.0 + (-x).exp())
@@ -12,8 +13,8 @@ pub struct LogisticRegression<'a> {
     epochs: u128,
 }
 
-impl<'a> LogisticRegression<'a> {
-    pub fn new(
+impl<'a> RegressionTrait<'a> for LogisticRegression<'a> {
+    fn new(
         x: &'a Matrix,
         y: &'a Matrix,
         initial_theta: &'a Matrix,
@@ -23,7 +24,7 @@ impl<'a> LogisticRegression<'a> {
         Self { x, y, initial_theta, alpha, epochs }
     }
 
-    pub fn fit(&self, mini_batch_size: usize) -> Matrix {
+    fn fit(&self, mini_batch_size: usize) -> Matrix {
         let mut theta = self.initial_theta.clone();
 
         for _ in 0..self.epochs {
@@ -49,10 +50,10 @@ impl<'a> LogisticRegression<'a> {
         theta
     }
 
-    pub fn predict(theta: &Matrix, x: &Matrix) -> bool {
+    fn predict(theta: &Matrix, x: &Matrix) -> f64 {
         let res = sigmoid(theta.component_mul(x).sum());
     
-        res > 0.5
+        res
     }
 }
 
@@ -146,7 +147,10 @@ mod tests {
 
         for prediction in data.predictions {
             let result = LogisticRegression::predict(&theta, &prediction.input);
-            assert_eq!(result, prediction.output);
+            match prediction.output {
+                true => assert!(result > 0.5),
+                false => assert!(result < 0.5),
+            }
         }
     }
 }
