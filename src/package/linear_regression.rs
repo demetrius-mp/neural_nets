@@ -1,35 +1,49 @@
 use crate::Matrix;
 
-pub fn mini_batch_linear_regression(
-    x: &Matrix,
-    y: &Matrix,
-    initial_theta: &Matrix,
+pub struct LinearRegression<'a> {
+    x: &'a Matrix,
+    y: &'a Matrix,
+    initial_theta: &'a Matrix,
     alpha: f64,
     epochs: u128,
-    mini_batch_size: usize,
-) -> Matrix {
-    let mut theta = initial_theta.clone();
+}
 
-    for _ in 0..epochs {
-        for i in (0..x.nrows()).step_by(mini_batch_size) {
-            let x_mini_batch = x.rows(i, mini_batch_size);
-            let y_mini_batch = y.rows(i, mini_batch_size);
-            let x_mini_batch_mean_values = x_mini_batch.scale(1.0 / mini_batch_size as f64);
-
-            let current_guess_distance = &theta * &x_mini_batch.transpose() - &y_mini_batch;
-
-            let delta = current_guess_distance * &x_mini_batch_mean_values;
-
-            theta -= alpha * delta;
-        }
+impl<'a> LinearRegression<'a> {
+    pub fn new(
+        x: &'a Matrix,
+        y: &'a Matrix,
+        initial_theta: &'a Matrix,
+        alpha: f64,
+        epochs: u128,
+    ) -> Self {
+        Self { x, y, initial_theta, alpha, epochs }
     }
 
-    theta
+    pub fn fit(&self, mini_batch_size: usize) -> Matrix {
+        let mut theta = self.initial_theta.clone();
+
+        for _ in 0..self.epochs {
+            for i in (0..self.x.nrows()).step_by(mini_batch_size) {
+                let x_mini_batch = self.x.rows(i, mini_batch_size);
+                let y_mini_batch = self.y.rows(i, mini_batch_size);
+                let x_mini_batch_mean_values = x_mini_batch.scale(1.0 / mini_batch_size as f64);
+
+                let current_guess_distance = &theta * &x_mini_batch.transpose() - &y_mini_batch;
+
+                let delta = current_guess_distance * &x_mini_batch_mean_values;
+
+                theta -= self.alpha * delta;
+            }
+        }
+
+        theta
+    }
+
+    pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
+        theta.component_mul(x).sum()
+    }
 }
 
-pub fn predict(theta: &Matrix, x: &Matrix) -> f64 {
-    theta.component_mul(x).sum()
-}
 
 #[cfg(test)]
 mod tests {
@@ -109,9 +123,10 @@ mod tests {
     #[test]
     fn mini_batch_linear_regression_3_samples() {
         let data = LogicalAndProblemData::new();
-        let theta = mini_batch_linear_regression(&data.x, &data.y, &data.initial_theta, 0.0001, 1000, 1);
+        let lr = LinearRegression::new(&data.x, &data.y, &data.initial_theta, 0.0001, 1000);
+        let theta = lr.fit(1);
         let mean_squared_error = data.predictions.iter().fold(0.0, |acc, p| {
-            acc + (p.output - predict(&theta, &p.input)).powi(2)
+            acc + (p.output - LinearRegression::predict(&theta, &p.input)).powi(2)
         });
 
         assert!(mean_squared_error < 30.0);

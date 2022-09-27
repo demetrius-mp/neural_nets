@@ -1,8 +1,7 @@
 use neural_nets::create_matrix;
 
 use neural_nets::linear_regression::{
-    mini_batch_linear_regression,
-    predict,
+    LinearRegression
 };
 
 fn main() {
@@ -36,11 +35,12 @@ fn main() {
         ]
     );
 
-    let res = mini_batch_linear_regression(&x, &y, &initial_theta, 0.0001, 1000, 1);
+    let lr = LinearRegression::new(&x, &y, &initial_theta, 0.0001, 1000);
+    let res = lr.fit(1);
     println!("{}", res);
 
     println!(
         "{}",
-        predict(&res, &create_matrix(1, 2, vec![1.0, 60.0]))
+        LinearRegression::predict(&res, &create_matrix(1, 2, vec![1.0, 60.0]))
     );
 }
